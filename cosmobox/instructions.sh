@@ -13,4 +13,4 @@ echo $SYSTYPE
 make
 cd ..
 mpiexec -np 4 ./arepo/Arepo param.txt
-# python analyze.py
+python ../CosmoComputingSchool/cosmobox/analyze.py ./output/
