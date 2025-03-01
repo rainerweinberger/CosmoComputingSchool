@@ -2,9 +2,16 @@
 
 ##################################################
 #  Enable/Disable compile-time options as needed #
-#  examples/cosmo_box_gravity_only_3d/Config.sh  #
 ##################################################
 
+
+#------------------------------------------------ mesh
+REGULARIZE_MESH_CM_DRIFT                         # Mesh regularization; Move mesh generating point towards center of mass to make cells rounder.
+REGULARIZE_MESH_CM_DRIFT_USE_SOUNDSPEED          # Limit mesh regularization speed by local sound speed
+REGULARIZE_MESH_FACE_ANGLE                       # Use maximum face angle as roundness criterion in mesh regularization
+REFINEMENT_SPLIT_CELLS                           # Refinement
+REFINEMENT_MERGE_CELLS                           # Derefinement
+ENFORCE_JEANS_STABILITY_OF_CELLS                 # this imposes an adaptive floor for the temperature
 
 #--------------------------------------- Gravity treatment
 SELFGRAVITY                              # gravitational intraction between simulation particles/cells  	 
@@ -47,6 +54,8 @@ SUBFIND_EXTENDED_PROPERTIES              # adds calculation of further quantitie
 PROCESS_TIMES_OF_OUTPUTLIST              # goes through times of output list prior to starting the simulaiton to ensure that outputs are written as close to the desired time as possible (as opposed to at next possible time if this flag is not active)
 
 #--------------------------------------- Output/Input options
+GENERATE_GAS_IN_ICS
+SPLIT_PARTICLE_TYPE=2
 REDUCE_FLUSH                             # only flush output to log-files in predefined intervals
 HAVE_HDF5                                # needed when HDF5 I/O support is desired (recommended)
 

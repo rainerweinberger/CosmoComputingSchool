@@ -10,10 +10,10 @@ In this example, we are simulating stucture formation in the Universe. The initi
 3. download the Arepo code via git ``` git clone https://gitlab.mpcdf.mpg.de/vrs/arepo.git ```
 4. copy files ics.hdf5, Config.sh to simulation directory 
 ``` 
-cp ../cosmocomputingschool/cosmobox/ics.hdf5 ./
-cp ../cosmocomputingschool/cosmobox/param.txt ./
+cp ../CosmoComputingSchool/cosmobox/ics.hdf5 ./
+cp ../CosmoComputingSchool/cosmobox/param.txt ./
 ```
-5. copy file Config.sh to code directory ``` cp ../cosmocomputingschool/cosmobox/Config.sh ./arepo/ ```
+5. copy file Config.sh to code directory ``` cp ../CosmoComputingSchool/cosmobox/Config.sh ./arepo/ ```
 
 
 6. change to arepo directory ``` cd arepo ```
