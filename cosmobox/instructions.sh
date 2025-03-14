@@ -8,7 +8,7 @@ cp ../CosmoComputingSchool/cosmobox/param.txt ./
 cp ../CosmoComputingSchool/cosmobox/output_list.txt ./
 cp ../CosmoComputingSchool/cosmobox/Config.sh ./arepo/
 cd arepo
-export SYSTYPE="Newtonn21"
+export SYSTYPE="Newton21"
 echo $SYSTYPE
 make
 cd ..
