@@ -10,6 +10,16 @@ cp ../CosmoComputingSchool/cosmobox/Config.sh ./arepo/
 cd arepo
 export SYSTYPE="Newton21"
 echo $SYSTYPE
+
+module load autotools
+module load prun
+module load gnu9
+module load openmpi4
+module load gsl
+module load hdf5
+module load fftw
+module load hypre
+
 make
 cd ..
 mpiexec -np 4 ./arepo/Arepo param.txt
