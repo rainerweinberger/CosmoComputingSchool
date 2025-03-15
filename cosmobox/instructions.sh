@@ -1,9 +1,11 @@
 rm -rf ./cosmo_box_sim
 
+# the paths assume when typing ls, a directory CosmoComputingSchool shows up 
+
 # create simulation directory, check out code, copy initial conditions and input files needed by the simulation
 mkdir ./cosmo_box_sim
 cd ./cosmo_box_sim
-git clone https://github.com/rainerweinberger/arepo.git arepo #clone https://gitlab.mpcdf.mpg.de/vrs/arepo.git
+git clone https://github.com/rainerweinberger/arepo.git arepo 
 cp ../CosmoComputingSchool/cosmobox/ics.hdf5 ./
 cp ../CosmoComputingSchool/cosmobox/param.txt ./
 cp ../CosmoComputingSchool/cosmobox/output_list.txt ./
@@ -38,9 +40,11 @@ module load fftw
 module load hypre
 
 # run
-mpiexec -np 4 ./arepo/Arepo param.txt
+mpiexec -np 12 ./arepo/Arepo param.txt
 
 # run analysis on compute node
+source  "/opt/aconda3/etc/profile.d/conda.sh"
+conda activate py37
 python ../CosmoComputingSchool/cosmobox/analyze.py ./output/
 
 # back to login node
