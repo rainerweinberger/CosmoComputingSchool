@@ -18,7 +18,7 @@ MaxMemSize        4000
 
 %---- Caracteristics of run
 TimeBegin           0.0        % Begin of the simulation
-TimeMax	            4.0        % End of the simulation
+TimeMax	            3.0        % End of the simulation
 
 %---- Basic code options that set the type of simulation
 ComovingIntegrationOn    0
@@ -33,9 +33,9 @@ Hubble                0
 
 %---- Output frequency and output paramaters
 OutputListOn              0 
-TimeBetSnapshot           0.05
+TimeBetSnapshot           0.046875
 TimeOfFirstSnapshot       0.0
-TimeBetStatistics         0.05
+TimeBetStatistics         0.046875
 NumFilesPerSnapshot       1
 MaxFilesWithConcurrentIO  1 
 
@@ -66,11 +66,11 @@ GravityConstantInternal  0
 
 
 %---- Gravitational softening length
-SofteningComovingClass0     0.1
-SofteningComovingClass1     0.3
+SofteningComovingClass0     1.0
+SofteningComovingClass1     2.0
 
-SofteningMaxPhysClass0       0.1
-SofteningMaxPhysClass1       0.3
+SofteningMaxPhysClass0       1.0
+SofteningMaxPhysClass1       2.0
 
 SofteningClassOfPartType0    0
 SofteningClassOfPartType1    1
