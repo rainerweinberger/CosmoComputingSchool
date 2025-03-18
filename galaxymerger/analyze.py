@@ -55,7 +55,7 @@ for i_snap in np.arange(65):
 rate = 16 #frames per s
 pix_fmt = 'yuv420p'
 from subprocess import call
-call(["ffmpeg",  "-r",  str(rate),  "-i",  simulation_directory+'/plots/stars_position_%03d.png',  '-pix_fmt', pix_fmt, simulation_directory + "/movie.mp4"])
+call(["ffmpeg",  "-r",  str(rate),  "-i",  simulation_directory+'/plots/stars_position_%03d.png',  '-pix_fmt', pix_fmt, simulation_directory + "/movie_galaxymerger.mp4"])
     
 """ if everything is ok """
 sys.exit(0)
