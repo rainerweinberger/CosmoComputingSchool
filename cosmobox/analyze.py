@@ -64,6 +64,7 @@ for snapshot in np.arange(63):
     if not os.path.exists( simulation_directory+"/plots" ):
         os.mkdir( simulation_directory+"/plots" )
     fig.savefig(simulation_directory+'/plots/largeScaleStructure_%.03d.png'%snapshot, dpi=300)
+    plt.close(fig)
 
 #create movie
 rate = 16 #frames per s
