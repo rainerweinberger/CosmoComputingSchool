@@ -42,6 +42,10 @@ module load hypre
 # run
 mpiexec -np 12 ./arepo/Arepo param.txt
 
+# alternative: submit via slurm job
+cp ../CosmoComputingSchool/cosmobox/run.slurm ./
+sbatch run.slurm
+
 # run analysis on compute node
 source  "/opt/aconda3/etc/profile.d/conda.sh"
 conda activate py37

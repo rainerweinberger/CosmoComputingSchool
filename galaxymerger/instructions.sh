@@ -41,7 +41,11 @@ module load hypre
 # run
 mpiexec -np 12 ./gadget4/Gadget4 param.txt
 
-# run analysis on compute node
+# alternative: submit via slurm job
+cp ../CosmoComputingSchool/galaxymerger/run.slurm ./
+sbatch run.slurm
+
+# run analysis 
 source  "/opt/aconda3/etc/profile.d/conda.sh"
 conda activate py37
 python ../CosmoComputingSchool/galaxymerger/analyze.py ./output/
