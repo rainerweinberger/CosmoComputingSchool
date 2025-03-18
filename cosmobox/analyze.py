@@ -63,11 +63,11 @@ for snapshot in np.arange(63):
 
     if not os.path.exists( simulation_directory+"/plots" ):
         os.mkdir( simulation_directory+"/plots" )
-    fig.savefig(simulation_directory+'/plots/largeScaleStructure_%.03d.png'%snapshot, dpi=300)
+    fig.savefig(simulation_directory+'/plots/largeScaleStructure_%03d.png'%snapshot, dpi=300)
     plt.close(fig)
 
 #create movie
 rate = 16 #frames per s
 pix_fmt = 'yuv420p'
 from subprocess import call
-call(["ffmpeg",  "-r",  str(rate),  "-i",  simulation_directory+'/plots/largeScaleStructure_%.03d.png',  '-pix_fmt', pix_fmt, simulation_directory + "/movie_cosmobox.mp4"])
+call(["ffmpeg",  "-r",  str(rate),  "-i",  simulation_directory+'/plots/largeScaleStructure_%03d.png',  '-pix_fmt', pix_fmt, simulation_directory + "/movie_cosmobox.mp4"])
