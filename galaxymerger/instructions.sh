@@ -1,4 +1,3 @@
-rm -rf ./galaxy_merger_sim
 
 # the paths assume when typing ls, a directory CosmoComputingSchool shows up 
 

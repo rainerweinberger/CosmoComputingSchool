@@ -1,4 +1,3 @@
-rm -rf ./cosmo_box_sim
 
 # the paths assume when typing ls, a directory CosmoComputingSchool shows up 
 
