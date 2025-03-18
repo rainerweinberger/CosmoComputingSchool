@@ -13,7 +13,7 @@ UnitMass = 1.0e10
 Volume = Boxsize * Boxsize * Boxsize / HubbleParam / HubbleParam / HubbleParam
 
 
-for snapshot in np.arange(65):
+for snapshot in np.arange(63):
     halo_filename = simulation_directory + "/fof_subhalo_tab_%03d.hdf5" % snapshot 
     particle_filename = simulation_directory + "/snap_%03d.hdf5" % snapshot 
 
@@ -22,7 +22,6 @@ for snapshot in np.arange(65):
         data = h5py.File(particle_filename, "r")
     except:
         print("could not open "+particle_filename)
-        sys.exit(1)
     pos = np.array(data["PartType1"]["Coordinates"], dtype=np.float64) / HubbleParam / 1000.
 
     fig = plt.figure(figsize=(6.9,6.9))
