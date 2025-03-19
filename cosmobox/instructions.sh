@@ -22,6 +22,9 @@ module load hdf5
 module load fftw
 module load hypre
 
+source  "/opt/aconda3/etc/profile.d/conda.sh"
+conda activate py37
+
 export SYSTYPE="Newton21"
 echo $SYSTYPE
 make
