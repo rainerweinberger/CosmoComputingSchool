@@ -30,27 +30,11 @@ echo $SYSTYPE
 make
 cd ..
 
-# interactive job on compute nodes (this part can be replaced by jobscript)
-srun -p debug --job-name "interactive" --nodes=1 --tasks-per-node=12 --time=02:00:00 --pty bash
-module load autotools
-module load prun
-module load gnu9
-module load openmpi4
-module load gsl
-module load hdf5
-module load fftw
-module load hypre
-
-# run
-mpiexec -np 12 ./arepo/Arepo param.txt
-
-# alternative: submit via slurm job
+# submit via slurm job
 cp ../CosmoComputingSchool/cosmobox/run.slurm ./
 sbatch run.slurm
 
-# run analysis on compute node
-source  "/opt/aconda3/etc/profile.d/conda.sh"
-conda activate py37
+# run analysis on login node
 python ../CosmoComputingSchool/cosmobox/analyze.py ./output/
 
 # back to login node
