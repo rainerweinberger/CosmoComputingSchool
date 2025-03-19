@@ -22,4 +22,4 @@ wdir=$SLURM_SUBMIT_DIR
 job_id=$SLURM_JOBID
 
 mkdir ./logs
-prun ./gadget4/Gadget4 1> $wdir/logs/job.$job_id.out 2> $wdir/logs/job.$job_id.err
+prun ./gadget4/Gadget4 param.txt 1> $wdir/logs/job.$job_id.out 2> $wdir/logs/job.$job_id.err
