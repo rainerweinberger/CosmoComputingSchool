@@ -36,6 +36,3 @@ sbatch run.slurm
 
 # run analysis on login node
 python ../CosmoComputingSchool/cosmobox/analyze.py ./output/
-
-# back to login node
-exit
