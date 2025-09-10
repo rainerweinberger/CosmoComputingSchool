@@ -16,7 +16,9 @@ N_snap = 31
 
 for i_snap in np.arange(N_snap):
     with h5py.File(simulation_directory + "/output/snapshot_%03d.hdf5"%i_snap) as snap:
-        pos = np.array(snap["PartType1"]["Coordinates"], dtype=FloatType)
+        a = snap["Header"].attrs["Time"]
+        boxhalf = 0.5 * np.float32(snap["Parameters"].attrs["BoxSize"])
+        pos = np.array(snap["PartType1"]["Coordinates"], dtype=FloatType) - boxhalf
         vel = np.array(snap["PartType1"]["Velocities"], dtype=FloatType)
 
         fig = plt.figure(figsize=(5.0,5.0))
@@ -24,8 +26,8 @@ for i_snap in np.arange(N_snap):
 
         ax.scatter(pos[:,0], pos[:,1], s=2, c='k')
 
-        ax.set_xlim((45, 55))
-        ax.set_ylim((45, 55))
+        ax.set_xlim((-5, 5))
+        ax.set_ylim((-5, 5))
         #ax.set_ylim((-1500, 1500))
 
         fig.savefig(simulation_directory + "/plots/pos_xy_%03d.png"%i_snap)
