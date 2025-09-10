@@ -11,39 +11,39 @@ ICFormat             3
 SnapFormat           3 
 
 %---- CPU-time limits
-TimeLimitCPU              86400   % 24h, in seconds
-CpuTimeBetRestartFile     7200    % 2h,  in seconds
+TimeLimitCPU              86400 
+CpuTimeBetRestartFile     7200 
 
 %----- Memory alloction
-MaxMemSize                1800    % in MByte
+MaxMemSize                1800 
 
 %---- Caracteristics of run
-TimeBegin                 0.0        % 
-TimeMax	                  0.00946        % 13.8 Gyr = 0.014113425963434942 * h = 0.009455995395501411
+TimeBegin                 0.0625 
+TimeMax	                  1.0
 
 %---- Basic code options that set the type of simulation
-ComovingIntegrationOn     0 
+ComovingIntegrationOn     1 
 
 %---- Cosmological parameters
-Omega0	                  0.0
-OmegaLambda               0.0
+Omega0	                  0.308
+OmegaLambda               0.692
 OmegaBaryon               0.0
-HubbleParam               0.678
+HubbleParam               0.7
 Hubble                    100.0
 BoxSize                   100.0
 
 %---- Output frequency and output paramaters
-OutputListOn              0
-TimeBetSnapshot           0.000295625 % 32 snapshot
+OutputListOn              1
+TimeBetSnapshot           0
 TimeOfFirstSnapshot       0.0
-TimeBetStatistics         0.000295625
+TimeBetStatistics         0.01
 NumFilesPerSnapshot       1
 MaxFilesWithConcurrentIO  1 
 
 %---- Accuracy of time integration
 ErrTolIntAccuracy        0.01 
 CourantFac               0.3
-MaxSizeTimestep          0.000295625
+MaxSizeTimestep          0.005
 MinSizeTimestep          0.0 
 
 %---- Tree algorithm, force accuracy, domain update frequency
@@ -61,19 +61,17 @@ DesNumNgb                        64
 MaxNumNgbDeviation               1 
 
 %---- System of units
-UnitLength_in_cm         3.085678e24        ;  Mpc / h
-UnitMass_in_g            1.989e43           ;  1.0e10 Msun / h
-UnitVelocity_in_cm_per_s 1e5                ;  1 km/sec
+UnitLength_in_cm         3.085678e24 
+UnitMass_in_g            1.989e43 
+UnitVelocity_in_cm_per_s 1e5 
 GravityConstantInternal  0
 
 
 %---- Gravitational softening length
-SofteningComovingClass0      0.05           ; 10 kpc/h
-SofteningComovingClass1      0.05           ; 10 kpc/h
-
+SofteningComovingClass0      0.05 
+SofteningComovingClass1      0.05 
 SofteningMaxPhysClass0       0.05
-SofteningMaxPhysClass1       0.05
-
+SofteningMaxPhysClass1      0.05 
 
 SofteningClassOfPartType0    0
 SofteningClassOfPartType1    0
