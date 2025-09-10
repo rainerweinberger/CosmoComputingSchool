@@ -30,7 +30,7 @@ OmegaLambda               0.692
 OmegaBaryon               0.0
 HubbleParam               0.7
 Hubble                    100.0
-BoxSize                   100.0
+BoxSize                   50.0
 
 %---- Output frequency and output paramaters
 OutputListOn              1
@@ -68,10 +68,10 @@ GravityConstantInternal  0
 
 
 %---- Gravitational softening length
-SofteningComovingClass0      0.05 
-SofteningComovingClass1      0.05 
-SofteningMaxPhysClass0       0.05
-SofteningMaxPhysClass1      0.05 
+SofteningComovingClass0      0.5 
+SofteningComovingClass1      0.5 
+SofteningMaxPhysClass0       0.5
+SofteningMaxPhysClass1      0.5 
 
 SofteningClassOfPartType0    0
 SofteningClassOfPartType1    0

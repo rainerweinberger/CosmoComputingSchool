@@ -53,13 +53,13 @@ MEGAPARSEC = FloatType(3.085678e+24) # Mpc in cm
 GRAVITY = FloatType(6.6738e-08) # gravitational constant in cgs
 
 Omega0 = 0.308
-overdensity = FloatType(0.67)
+overdensity = FloatType(0.67) # 0.67 # 1
 h = FloatType(0.7)
 hubble = FloatType(100) * h * KM_PER_S / MEGAPARSEC
 rho_crit = 3. * hubble**2 / 8. / np.pi / GRAVITY
 a_start = 0.0625 # z=15 
 
-simulation_box = FloatType(100.) #100 Mpc/h in units of Mpc/h
+simulation_box = FloatType(50.) #100 Mpc/h in units of Mpc/h
 simulation_volume = (simulation_box * MEGAPARSEC / h)**3
 mass_in_box = Omega0 * rho_crit / (1e10*SOLAR_MASS/h) * simulation_volume
 
@@ -74,7 +74,7 @@ mass_sphere = Omega0 * overdensity * rho_crit_start / (1e10*SOLAR_MASS/h) * sphe
 print("mass in sphere in Msun/h %g"%(mass_sphere * 1e10))
 
 # set up a background grid
-n_bg_grid = 64
+n_bg_grid = 32
 n_bg_part = n_bg_grid**3
 m_bg_part = (mass_in_box-mass_sphere)/n_bg_part
 
