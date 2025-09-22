@@ -1,7 +1,7 @@
 
 %----  Relevant files 
 InitCondFile         ./dummy.dat       % we will here create the ICs upon startup
-OutputDir            ./output
+OutputDir            ../output
 SnapshotFileBase     snapshot
 OutputListFilename   outputs.txt
 
