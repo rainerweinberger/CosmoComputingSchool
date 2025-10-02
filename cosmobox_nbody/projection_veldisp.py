@@ -17,10 +17,6 @@ HubbleParam = 0.6774 # h
 UnitMass = 1.0e10
 Volume = Boxsize * Boxsize * Boxsize 
 
-
-mass = 1.0
-
-
 halo_filename = simulation_directory + "/fof_tab_%03d.hdf5" % snapshot 
 particle_filename = simulation_directory + "/snapshot_%03d.hdf5" % snapshot 
 
@@ -31,6 +27,8 @@ except:
     print("could not open "+particle_filename)
 pos = np.array(data["PartType1"]["Coordinates"], dtype=np.float64)
 vel = np.array(data["PartType1"]["Velocities"], dtype=np.float64)
+h = np.float64(data['Parameters'].attrs['HubbleParam']) 
+mass = np.float64(data['Header'].attrs['MassTable'][1]) * 1e10 / h
 
 ### density map
 fig = plt.figure(figsize=(6.9,6.9))
@@ -80,7 +78,7 @@ Canvas /= Norm
 
 Canvas[...] = np.sqrt(Canvas[...])
 
-pc = ax.imshow(Canvas.T, cmap=plt.get_cmap("afmhot_r"), extent=(0, Boxsize, 0, Boxsize), origin="lower", norm=LogNorm(vmin=100,vmax=2000))
+pc = ax.imshow(Canvas.T, cmap=plt.get_cmap("cubehelix_r"), extent=(0, Boxsize, 0, Boxsize), origin="lower", norm=LogNorm(vmin=80,vmax=1500))
 
 plt.colorbar(pc, cax=cax)
 cax.set_ylabel("velocity dispersion [km/s]")

@@ -17,10 +17,6 @@ HubbleParam = 0.6774 # h
 UnitMass = 1.0e10
 Volume = Boxsize * Boxsize * Boxsize 
 
-
-mass = 1.0
-
-
 halo_filename = simulation_directory + "/fof_tab_%03d.hdf5" % snapshot 
 particle_filename = simulation_directory + "/snapshot_%03d.hdf5" % snapshot 
 
@@ -30,6 +26,8 @@ try:
 except:
     print("could not open "+particle_filename)
 pos = np.array(data["PartType1"]["Coordinates"], dtype=np.float64)
+h = np.float64(data['Parameters'].attrs['HubbleParam']) 
+mass = np.float64(data['Header'].attrs['MassTable'][1]) * 1e10 / h
 
 ### density map
 fig = plt.figure(figsize=(6.9,6.9))
@@ -66,14 +64,14 @@ for i in np.arange(32**3):
             wk = dx * dx / (np.pi * hsml[i] * hsml[i])
 
             if jx>=0 and jy>=0 and jx<Nplot and jy<Nplot: # note: no periodic wrapping of canvas yet
-                Canvas[jx, jy] += mass * wk / dx / dx
+                Canvas[jx, jy] += mass * wk / dx * h / dx * h
             jy += 1
         jx += 1
 
-pc = ax.imshow(Canvas.T, cmap=plt.get_cmap("YlOrBr"), extent=(0, Boxsize, 0, Boxsize), origin="lower", norm=LogNorm(vmin=1e-2*np.max(Canvas), vmax=np.max(Canvas)))
+pc = ax.imshow(Canvas.T, cmap=plt.get_cmap("YlOrBr"), extent=(0, Boxsize, 0, Boxsize), origin="lower", norm=LogNorm(vmin=1e-4*np.max(Canvas), vmax=np.max(Canvas)))
 
 plt.colorbar(pc, cax=cax)
-cax.set_ylabel("projected density")
+cax.set_ylabel(r"projected density [M$_\odot$ Mpc$^{-2}$]")
 
 ax.set_xlim([0,Boxsize])
 ax.set_ylim([0,Boxsize])
