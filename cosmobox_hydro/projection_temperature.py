@@ -15,6 +15,9 @@ else:
 Boxsize = 50 # Mpc/h
 HubbleParam = 0.6774 # h
 UnitMass = 1.0e10
+mu = 0.6
+BOLTZMANN = 1.38065e-16
+PROTONMASS = 1.67262178e-24
 Volume = Boxsize * Boxsize * Boxsize 
 
 # coefficients for 2d normalized kernel
@@ -23,17 +26,22 @@ KERNEL_COEFF_2 = (5.0 / 7 * 15.278874536822)
 KERNEL_COEFF_5 = (5.0 / 7 * 5.092958178941)
 
 halo_filename = simulation_directory + "/fof_tab_%03d.hdf5" % snapshot 
-particle_filename = simulation_directory + "/snapshot_%03d.hdf5" % snapshot 
+particle_filename = simulation_directory + "/snap_%03d.hdf5" % snapshot 
 
 ## large scale structure visualization
 try:
     data = h5py.File(particle_filename, "r")
 except:
     print("could not open "+particle_filename)
-pos = np.array(data["PartType1"]["Coordinates"], dtype=np.float64)
-vel = np.array(data["PartType1"]["Velocities"], dtype=np.float64)
+
+
 h = np.float64(data['Parameters'].attrs['HubbleParam']) 
-mass = np.float64(data['Header'].attrs['MassTable'][1]) * 1e10 / h
+UnitVel = np.float64(data['Parameters'].attrs['UnitVelocity_in_cm_per_s']) 
+pos = np.array(data["PartType0"]["Coordinates"], dtype=np.float64) / 1000.
+vel = np.array(data["PartType0"]["Velocities"], dtype=np.float64)
+utherm = np.array(data["PartType0"]["InternalEnergy"], dtype=np.float64)
+mass = np.array(data["PartType0"]["Masses"], dtype=np.float64) * UnitMass / h
+temperature = (2./3.) * utherm * UnitVel * UnitVel / BOLTZMANN * PROTONMASS * mu
 
 ### density map
 fig = plt.figure(figsize=(6.9,6.9))
@@ -58,13 +66,10 @@ dx = Boxsize/np.float64(Nplot)
 Canvas = np.zeros((Nplot, Nplot), dtype=np.float64)
 Norm = np.zeros((Nplot, Nplot), dtype=np.float64)
 
-for i in np.arange(32**3):
-
-    sigma2 = np.var(vel[i_part[i], 2])
+for i in np.arange(mass.shape[0]):
 
     jx = np.int32((pos[i,0]-hsml[i])/dx - 1)
     mx = np.int32((pos[i,0]+hsml[i])/dx + 1)
-
 
     while jx < mx:
         
@@ -83,21 +88,19 @@ for i in np.arange(32**3):
                 if u < 1.:
                     wk = hinv3 * KERNEL_COEFF_5 * (1.0 - u) * (1.0 - u) * (1.0 - u)
 
-
             if jx>=0 and jy>=0 and jx<Nplot and jy<Nplot: # note: no periodic wrapping of canvas yet
-                Canvas[jx, jy] += sigma2 * mass * wk / dx / dx
-                Norm[jx, jy] += mass * wk / dx / dx
+                Canvas[jx, jy] += temperature[i] * mass[i] * wk / dx / dx
+                Norm[jx, jy] += mass[i] * wk / dx / dx
             jy += 1
         jx += 1
 
 Canvas /= Norm
 
-Canvas[...] = np.sqrt(Canvas[...])
-
-pc = ax.imshow(Canvas.T, cmap=plt.get_cmap("cubehelix_r"), extent=(0, Boxsize, 0, Boxsize), origin="lower", norm=LogNorm(vmin=80,vmax=1500))
+pc = ax.imshow(Canvas.T, cmap=plt.get_cmap("magma"), extent=(0, Boxsize, 0, Boxsize), origin="lower", norm=LogNorm(vmin=3e4,vmax=3e8))
 
 plt.colorbar(pc, cax=cax)
-cax.set_ylabel("velocity dispersion [km/s]")
+cax.set_ylabel("temperature [K]", color='w')
+cax.tick_params(axis='y', colors='w')
 
 ax.set_xlim([0,Boxsize])
 ax.set_ylim([0,Boxsize])
@@ -106,5 +109,5 @@ ax.set_ylabel('[Mpc/h]')
 
 if not os.path.exists( simulation_directory+"/plots" ):
     os.mkdir( simulation_directory+"/plots" )
-fig.savefig(simulation_directory+'/plots/VelDispProjection_%03d.png'%snapshot, dpi=300)
+fig.savefig(simulation_directory+'/plots/temperature_%03d.png'%snapshot, dpi=300)
 plt.close(fig)

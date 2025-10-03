@@ -90,9 +90,9 @@ except:
     print("could not open "+particle_filename)
 pos = np.array(data["PartType1"]["Coordinates"], dtype=np.float64)
 
-L = 50.0
+L = np.float64(data['Parameters'].attrs['BoxSize'])
 
-r_bins = np.linspace(0, 100, 101)
+r_bins = np.logspace(-1, 2, 21)
 
 r, xi = two_point_correlation(pos, r_bins, box_size=L)
 

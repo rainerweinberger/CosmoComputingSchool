@@ -17,6 +17,11 @@ HubbleParam = 0.6774 # h
 UnitMass = 1.0e10
 Volume = Boxsize * Boxsize * Boxsize 
 
+# coefficients for 2d normalized kernel
+KERNEL_COEFF_1 = (5.0 / 7 * 2.546479089470)
+KERNEL_COEFF_2 = (5.0 / 7 * 15.278874536822)
+KERNEL_COEFF_5 = (5.0 / 7 * 5.092958178941)
+
 halo_filename = simulation_directory + "/fof_tab_%03d.hdf5" % snapshot 
 particle_filename = simulation_directory + "/snapshot_%03d.hdf5" % snapshot 
 
@@ -39,36 +44,49 @@ from matplotlib.colors import LogNorm
 searchtree = KDTree(pos, boxsize=Boxsize)
 
 # calculate "smoothing length"
-k=8
+k=16
 dist, _ = searchtree.query(pos, k=k)
 hsml = dist[:,-1]
 
 # project on a canvas
-Nplot=256
+Nplot=512
 Edges1d = np.linspace(0.0, Boxsize, Nplot+1, endpoint=True, dtype=np.float64)
 Grid1d = 0.5 * (Edges1d[1:] + Edges1d[:-1])
 dx = Boxsize/np.float64(Nplot)
 Canvas = np.zeros((Nplot, Nplot), dtype=np.float64)
+Norm = 0.0
 
 for i in np.arange(32**3):
 
     jx = np.int32((pos[i,0]-hsml[i])/dx - 1)
     mx = np.int32((pos[i,0]+hsml[i])/dx + 1)
 
-
     while jx < mx:
         
         jy = np.int32((pos[i,1]-hsml[i])/dx - 1)
         my = np.int32((pos[i,1]+hsml[i])/dx + 1)
         while jy < my:
-            wk = dx * dx / (np.pi * hsml[i] * hsml[i])
+            xx = pos[i,0] - jx*dx
+            yy = pos[i,1] - jy*dx
+            r = np.sqrt(xx*xx + yy*yy)
+            u = r/hsml[i]
+            hinv3 = 1./hsml[i]/hsml[i]/hsml[i]
+            wk = 0
+            if u < 0.5:
+                wk = hinv3 * (KERNEL_COEFF_1 + KERNEL_COEFF_2 * (u - 1) * u * u)
+            else:
+                if u < 1.:
+                    wk = hinv3 * KERNEL_COEFF_5 * (1.0 - u) * (1.0 - u) * (1.0 - u)
 
             if jx>=0 and jy>=0 and jx<Nplot and jy<Nplot: # note: no periodic wrapping of canvas yet
-                Canvas[jx, jy] += mass * wk / dx * h / dx * h
+                Canvas[jx, jy] += mass * wk
+                Norm += wk
             jy += 1
         jx += 1
 
-pc = ax.imshow(Canvas.T, cmap=plt.get_cmap("YlOrBr"), extent=(0, Boxsize, 0, Boxsize), origin="lower", norm=LogNorm(vmin=1e-4*np.max(Canvas), vmax=np.max(Canvas)))
+Canvas[...] *= 32**3 / Norm / dx * h / dx * h
+
+pc = ax.imshow(Canvas.T, cmap=plt.get_cmap("YlOrBr"), extent=(0, Boxsize, 0, Boxsize), origin="lower", norm=LogNorm(vmin=1e-5*np.max(Canvas), vmax=np.max(Canvas)))
 
 plt.colorbar(pc, cax=cax)
 cax.set_ylabel(r"projected density [M$_\odot$ Mpc$^{-2}$]")
